@@ -1,0 +1,27 @@
+{
+  "id": "test_block",
+  "type": "SharedSlice",
+  "name": "TestBlock",
+  "description": "TestBlock",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "afawf": {
+          "type": "Link",
+          "config": {
+            "label": "afawf",
+            "placeholder": "",
+            "select": null
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

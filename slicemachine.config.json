@@ -1,0 +1,13 @@
+{
+  "libraries": ["./src/slices"],
+  "adapter": {
+    "resolve": "@slicemachine/adapter-next",
+    "options": {
+      "lazyLoadSlices": false,
+      "jsxExtension": true,
+      "typescript": true
+    }
+  },
+  "repositoryName": "bitaru-test-next",
+  "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
+}

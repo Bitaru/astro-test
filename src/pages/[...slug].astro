@@ -1,0 +1,45 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import * as prismic from "@prismicio/client";
+import { repositoryName } from "../../slicemachine.config.json";
+
+export const createClient = (config?) => {
+  return prismic.createClient(repositoryName, {
+    fetchOptions:
+      process.env.NODE_ENV === "production"
+        ? { next: { tags: ["prismic"] }, cache: "force-cache" }
+        : { next: { revalidate: 5 } },
+    ...config,
+  });
+};
+
+export async function getStaticPaths() {
+	const client = createClient();
+  const pages = await client.getAllByType("page")
+	return pages.map(({ uid, data }) => {
+    return {
+      params: { slug: uid },
+      props: data,
+    };
+  });
+}
+
+type Props = CollectionEntry<'blog'>;
+const { slices } = Astro.props
+const blocks = import.meta.glob('../slices/**/index.tsx');
+const contents = await Promise.all(slices.map(async (slice) => {
+	const key = Object.keys(blocks).find(key => key.includes('SidesBlock'))
+	const component = await blocks[key]()
+	return {
+		component,
+		slice
+	}
+}))
+---
+<div>
+	{
+		contents.map(({ component, slice}) =>
+			<component.default slice={slice} />
+		)
+	}
+</div>
