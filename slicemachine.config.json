@@ -8,6 +8,6 @@
       "typescript": true
     }
   },
-  "repositoryName": "bitaru-test-next",
+  "repositoryName": "astro-test-bitaru",
   "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
 }

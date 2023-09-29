@@ -4,41 +4,72 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type AwfawfawfDocumentDataSlicesSlice = HeroSlice;
+type PageDocumentDataSlicesSlice =
+  | TestBlockSlice
+  | TestBlock2Slice
+  | SidesBlockSlice;
 
 /**
- * Content for awfawfawf documents
+ * Content for page documents
  */
-interface AwfawfawfDocumentData {
+interface PageDocumentData {
   /**
-   * Slice Zone field in *awfawfawf*
+   * Slice Zone field in *page*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: awfawfawf.slices[]
+   * - **API ID Path**: page.slices[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  slices: prismic.SliceZone<AwfawfawfDocumentDataSlicesSlice>;
+  slices: prismic.SliceZone<PageDocumentDataSlicesSlice>
+  /**
+   * Meta Description field in *page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: page.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>;
+
+  /**
+   * Meta Title field in *page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: page.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_title: prismic.KeyTextField;
 }
 
 /**
- * awfawfawf document from Prismic
+ * page document from Prismic
  *
- * - **API ID**: `awfawfawf`
+ * - **API ID**: `page`
  * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type AwfawfawfDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
-    Simplify<AwfawfawfDocumentData>,
-    "awfawfawf",
-    Lang
-  >;
+export type PageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-export type AllDocumentTypes = AwfawfawfDocument;
+export type AllDocumentTypes = PageDocument;
 
 /**
  * Primary content in *SidesBlock → Primary*
@@ -165,6 +196,36 @@ export type TestBlockSlice = prismic.SharedSlice<
   TestBlockSliceVariation
 >;
 
+/**
+ * Default variation for TestBlock2 Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TestBlock2SliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *TestBlock2*
+ */
+type TestBlock2SliceVariation = TestBlock2SliceDefault;
+
+/**
+ * TestBlock2 Shared Slice
+ *
+ * - **API ID**: `test_block2`
+ * - **Description**: TestBlock2
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TestBlock2Slice = prismic.SharedSlice<
+  "test_block2",
+  TestBlock2SliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -175,9 +236,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
-      AwfawfawfDocument,
-      AwfawfawfDocumentData,
-      AwfawfawfDocumentDataSlicesSlice,
+      PageDocument,
+      PageDocumentData,
+      PageDocumentDataSlicesSlice,
       AllDocumentTypes,
       SidesBlockSlice,
       SidesBlockSliceDefaultPrimary,
@@ -188,6 +249,9 @@ declare module "@prismicio/client" {
       TestBlockSliceDefaultPrimary,
       TestBlockSliceVariation,
       TestBlockSliceDefault,
+      TestBlock2Slice,
+      TestBlock2SliceVariation,
+      TestBlock2SliceDefault,
     };
   }
 }
